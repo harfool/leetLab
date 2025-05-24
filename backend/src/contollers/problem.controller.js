@@ -1,8 +1,13 @@
-import {db} from '../../libs/db.js'
-import {getJudge0LanguageId , submitBatch ,pollBatchResults ,getLanguageName} from '../../libs/judge0.libs.js'
+import { db } from "../../libs/db.js";
+import {
+  getJudge0LanguageId,
+  submitBatch,
+  pollBatchResults,
+  getLanguageName,
+} from "../../libs/judge0.libs.js";
 
-export const createProblem = async ( req , res ) => {
- const {
+export const createProblem = async (req, res) => {
+  const {
     title,
     description,
     difficulty,
@@ -13,7 +18,6 @@ export const createProblem = async ( req , res ) => {
     codeSnippets,
     referenceSolutions,
   } = req.body;
- 
 
   try {
     for (const [language, solutionCode] of Object.entries(referenceSolutions)) {
@@ -52,10 +56,12 @@ export const createProblem = async ( req , res ) => {
         }
       }
     }
-    const allowedDifficulties = ['EASY', 'MEDIUM', 'HARD'];
-if (!allowedDifficulties.includes(difficulty)) {
-  return res.status(400).json({ error: 'Invalid difficulty level provided.' });
-}
+    const allowedDifficulties = ["EASY", "MEDIUM", "HARD"];
+    if (!allowedDifficulties.includes(difficulty)) {
+      return res
+        .status(400)
+        .json({ error: "Invalid difficulty level provided." });
+    }
 
     const newProblem = await db.problem.create({
       data: {
@@ -85,37 +91,56 @@ if (!allowedDifficulties.includes(difficulty)) {
   }
 };
 
-export const getAllProblems = async (req , res) => {
-try {
-  const problems = await db.problem.findMany();
-  if(!problems){
-   return res.status(404).json({
-    error : "No problem found"
-   })
+export const getAllProblems = async (req, res) => {
+  try {
+    const problems = await db.problem.findMany();
+    if (!problems) {
+      return res.status(404).json({
+        error: "No problem found",
+      });
+    }
+
+    res.status(201).json({
+      success: "true",
+      message: "Problems Fetch Successfully",
+      problems,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      error: "Error while Fetching Problems",
+    });
   }
+};
+export const getProblemById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const problem = db.findUnique({
+      where: {
+        id,
+      },
+    });
 
-  res.status(201).json({
-    success : "true",
-    message : "Problems Fetch Successfully",
-    problems
-  })
-} catch (error) {
+    if (!problem) {
+      return res.status(404).json({
+        error : "Problem not found"
+      })
+    }
+
+    return res.status(200).json({
+      success : true,
+      message : "Problem found successfully",
+      problem
+    })
+
+  } catch (error) {
   console.error(error)
-  return res.status(404).json({
-    error : "Error while Fetching Problems"
+  return res.status(500).json({
+    error : "Error while fetching problem by id "
   })
-}
-}
-export const getProblemById = async (req , res) => {
 
-}
-export const updateProblem = async (req , res) => {
-
-}
-export const deleteProblem = async (req , res) => {
-
-}
-export const getAllProblemsSolvedByUser = async (req , res) => {
-
-}
-
+  }
+};
+export const updateProblem = async (req, res) => {};
+export const deleteProblem = async (req, res) => {};
+export const getAllProblemsSolvedByUser = async (req, res) => {};
