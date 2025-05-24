@@ -85,19 +85,37 @@ if (!allowedDifficulties.includes(difficulty)) {
   }
 };
 
-export const getAllProblems = async (res , req) => {
+export const getAllProblems = async (req , res) => {
+try {
+  const problems = await db.problem.findMany();
+  if(!problems){
+   return res.status(404).json({
+    error : "No problem found"
+   })
+  }
+
+  res.status(201).json({
+    success : "true",
+    message : "Problems Fetch Successfully",
+    problems
+  })
+} catch (error) {
+  console.error(error)
+  return res.status(404).json({
+    error : "Error while Fetching Problems"
+  })
+}
+}
+export const getProblemById = async (req , res) => {
 
 }
-export const getProblemById = async (res , req) => {
+export const updateProblem = async (req , res) => {
 
 }
-export const updateProblem = async (res , req) => {
+export const deleteProblem = async (req , res) => {
 
 }
-export const deleteProblem = async (res , req) => {
-
-}
-export const getAllProblemsSolvedByUser = async (res , req) => {
+export const getAllProblemsSolvedByUser = async (req , res) => {
 
 }
 
