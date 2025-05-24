@@ -115,17 +115,29 @@ export const getAllProblems = async (req, res) => {
 export const getProblemById = async (req, res) => {
   const { id } = req.params;
   try {
-    const problem = db.findUnique({
-      where: {
-        id,
-      },
+    // const problem = await db.findUnique({
+    //   where: {
+    //     id,
+    //   },
+    // });
+
+    // if (!problem) {
+    //   return res.status(404).json({
+    //     error : "Problem not found"
+    //   })
+    // }
+
+   const problem = await db.problem.findUnique({
+      where: { id },
     });
 
     if (!problem) {
       return res.status(404).json({
-        error : "Problem not found"
-      })
+        success: false,
+        error: "Problem not found",
+      });
     }
+
 
     return res.status(200).json({
       success : true,
@@ -141,6 +153,63 @@ export const getProblemById = async (req, res) => {
 
   }
 };
-export const updateProblem = async (req, res) => {};
+export const updateProblem = async (req, res) => {
+  try {
+
+    const { id } = req.params; 
+
+    const {
+      title,
+      description,
+      difficulty,
+      tags,
+      examples,
+      constraints,
+      testcases,
+      codeSnippets,
+      referenceSolutions,
+    } = req.body;
+
+    const existingProblem = await db.problem.findUnique({
+      where: { id },
+    });
+
+    if (!existingProblem) {
+      return res.status(404).json({
+        success: false,
+        error: "Problem not found",
+      });
+    }
+
+    
+    const updatedProblem = await db.problem.update({
+      where: { id },
+      data: {
+        title,
+        description,
+        difficulty,
+        tags,
+        examples,
+        constraints,
+        testcases,
+        codeSnippets,
+        referenceSolutions,
+      },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Problem updated successfully",
+      problem: updatedProblem,
+    });
+  } catch (error) {
+    console.log("Update Error:", error);
+    return res.status(500).json({
+      success: false,
+      error: "Error while updating problem",
+    });
+  }
+};
+
 export const deleteProblem = async (req, res) => {};
 export const getAllProblemsSolvedByUser = async (req, res) => {};
