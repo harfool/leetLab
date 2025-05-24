@@ -1,6 +1,7 @@
 import {db} from '../../libs/db.js'
+import {getJudge0LanguageId , submitBatch ,pollBatchResults ,getLanguageName} from '../../libs/judge0.libs.js'
 
-export const createProblem = async (res , req) => {
+export const createProblem = async ( req , res ) => {
  const {
     title,
     description,
@@ -12,7 +13,7 @@ export const createProblem = async (res , req) => {
     codeSnippets,
     referenceSolutions,
   } = req.body;
-
+ 
 
   try {
     for (const [language, solutionCode] of Object.entries(referenceSolutions)) {
@@ -51,6 +52,10 @@ export const createProblem = async (res , req) => {
         }
       }
     }
+    const allowedDifficulties = ['EASY', 'MEDIUM', 'HARD'];
+if (!allowedDifficulties.includes(difficulty)) {
+  return res.status(400).json({ error: 'Invalid difficulty level provided.' });
+}
 
     const newProblem = await db.problem.create({
       data: {
@@ -68,7 +73,7 @@ export const createProblem = async (res , req) => {
     });
 
     return res.status(201).json({
-      sucess: true,
+      success: true,
       message: "Message Created Successfully",
       problem: newProblem,
     });
