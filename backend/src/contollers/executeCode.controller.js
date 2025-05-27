@@ -1,8 +1,11 @@
-import { getLanguageName, pollBatchResults, submitBatch } from "../../libs/judge0.libs.js";
 import { db } from "../../libs/db.js";
+import { getLanguageName, pollBatchResults, submitBatch } from "../../libs/judge0.libs.js";
+;
 
-export const executeCode = async (req , res) =>{
-     try {
+export const executeCode = async (req , res) => {
+  try {
+    console.log(req.body);
+    
     const { source_code, language_id, stdin, expected_outputs, problemId } =
       req.body;
 
@@ -57,6 +60,7 @@ export const executeCode = async (req , res) =>{
         memory: result.memory ? `${result.memory} KB` : undefined,
         time: result.time ? `${result.time} s` : undefined,
       };
+
     });
 
     console.log(detailedResults);
@@ -139,4 +143,4 @@ export const executeCode = async (req , res) =>{
     console.error("Error executing code:", error.message);
     res.status(500).json({ error: "Failed to execute code" });
   }
-}
+};
