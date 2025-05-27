@@ -70,12 +70,12 @@ export const executeCode = async (req , res) => {
       data: {
         userId,
         problemId,
-        sourceCode: source_code,
+        sourceCode: source_code ,
         language: getLanguageName(language_id),
         stdin: stdin.join("\n"),
         stdout: JSON.stringify(detailedResults.map((r) => r.stdout)),
         stderr: detailedResults.some((r) => r.stderr)
-          ? JSON.stringify(detailedResults.map((r) => r.stderr))
+          ? JSON.str=ingify(detailedResults.map((r) => r.stderr))
           : null,
         compileOutput: detailedResults.some((r) => r.compile_output)
           ? JSON.stringify(detailedResults.map((r) => r.compile_output))
