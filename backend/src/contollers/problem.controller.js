@@ -245,4 +245,6 @@ export const deleteProblem = async (req, res) => {
     })
   }
 };
-export const getAllProblemsSolvedByUser = async (req, res) => {};
+export const getAllProblemsSolvedByUser = async (req, res) => {
+  
+};
