@@ -42,6 +42,33 @@ try {
 
 export const getAllListDetails = async (req ,res)=>{
 
+    try {
+        
+        const playlists = await db.playlist.findMany({
+            where : {
+                userId : req.user.id
+            },
+            include : {
+                problems : {
+                    include :{
+                        problem : true
+                    }
+                }
+            }
+        })
+
+        res.status(200).json({
+            success : true,
+            message : "playlist fetch successfully",
+            playlists
+        })
+
+    } catch (error) {
+        console.error("failed to fetch playlist" , error)
+        res.status(500).json({
+            error :"failed to fetch playlist" 
+        })
+    }
 
 }
 
