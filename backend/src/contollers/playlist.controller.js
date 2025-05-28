@@ -59,21 +59,54 @@ export const getAllListDetails = async (req ,res)=>{
 
         res.status(200).json({
             success : true,
-            message : "playlist fetch successfully",
+            message : "playlists fetch successfully",
             playlists
         })
 
     } catch (error) {
-        console.error("failed to fetch playlist" , error)
+        console.error("failed to fetch playlists" , error)
         res.status(500).json({
-            error :"failed to fetch playlist" 
+            error :"failed to fetch playlists" 
         })
     }
 
 }
 
 export const getPlaylistDetails = async (req , res )=>{
+try {
+    const {playlistId} = req.params
+    const playlist = await db.playlist.findUnique({
+        where : {
+            id : playlistId,
+            userId : req.user.id
+        }, 
+        include : {
+            problems :{
+                include :{
+                    problem : true
+                }
+            }
+        }
+    })
 
+    if (!playlist) {
+        res.status(404).json({
+            error : " playlist not found"
+        })
+    }
+
+    res.status(200).json({
+        success : true,
+        message : "playlist fetch successfully ",
+        playlist
+    })
+
+} catch (error) {
+    console.error("failed to fetch playlist " , error)
+    res.stats(500).json({
+        error : "failed to fetch playlist "
+    })
+}
 }
 
 
