@@ -10,9 +10,9 @@ import { addProblemToPlaylist, createPlaylist, deletePlaylist, getAllListDetails
 
  playlistRoute.post("/create-playlist" , authMiddleware , createPlaylist)
 
- playlistRoute.post("/:playlistId/addProblem" , authMiddleware , addProblemToPlaylist)
+ playlistRoute.post("/:playlistId/add-problems" , authMiddleware , addProblemToPlaylist)
 
- playlistRoute.delete("/:playlistId/delete-playlist" , authMiddleware , deletePlaylist)
+ playlistRoute.delete("/:playListId/delete-playlist" , authMiddleware , deletePlaylist)
 
  playlistRoute.delete("/:playlistId/remove-problem" , authMiddleware , removeProblemFromPlaylist)
 
