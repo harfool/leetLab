@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.routes.js"
 import problemRoutes from "./routes/problem.routes.js"
 import executionRoute from "./routes/executeCode.routes.js"
 import submissionRoute from "./routes/submission.routes.js"
+import playlistRoute from "./routes/playlistRoute.route.js"
 
 dotenv.config()
 
@@ -16,7 +17,7 @@ app.use("/api/v1/auth", authRoutes)
 app.use("/api/v1/problems", problemRoutes)
 app.use("/api/v1/execute-code", executionRoute)
 app.use("/api/v1/submission", submissionRoute)
-
+app.use("/api/v1/playlist" , playlistRoute)
 app.get('/', (req,res)=>{
     res.send("welcome to leetlab ")
 })
