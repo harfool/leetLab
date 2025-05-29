@@ -2,7 +2,6 @@ import React , {useState} from 'react'
 import {useForm} from "react-hook-form"
 import {zodResolver} from "@hookform/resolvers/zod"
 import { Link } from 'react-router-dom'
-import LoginSchema from "../schema/loginSchema"
 import {
   Code,
   Eye,
@@ -12,15 +11,20 @@ import {
   Mail,
 } from "lucide-react";
 
+import {z} from "zod";
 import AuthImagePattern from '../components/AuthImagePattern';
-// import { useAuthStore } from '../store/useAuthStore';
+import { useAuthStore } from '../store/useAuthStore';
 
 
+const LoginSchema = z.object({
+  email:z.string().email("Enter a valid email"),
+  password:z.string().min(6 , "Password must be atleast of 6 characters"),
 
+})
 
 const LoginPage = () => {
 
-  const {isLoggingIn , login} = useState()
+  const {isLoggingIn , login} = useAuthStore()
   const [showPassword , setShowPassword] = useState(false);
 
   const {

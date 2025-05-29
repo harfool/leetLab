@@ -13,13 +13,14 @@ import {
 
 import AuthImagePattern from '../components/AuthImagePattern';
 import signUpSchema from '../schema/signupSchema';
+import { useAuthStore } from '../store/useAuthStore';
 
 
 const SignUpPage = () => {
 
   const [showPassword , setShowPassword] = useState(false);
 
-  const {signup , isSigninUp} = useState()
+  const {signup , isSigninUp} =  useAuthStore()
 
   const {
     register,
@@ -29,17 +30,15 @@ const SignUpPage = () => {
     resolver:zodResolver(signUpSchema)
   })
 
-  // const onSubmit = async (data)=>{
-  //  try {
-  //   await signup(data)
-  //   console.log("signup data" , data)
-  //  } catch (error) {
-  //    console.error("SignUp failed:", error);
-  //  }
-  // }
-const onSubmit = async (data)=>{
-console.log(data)
-}
+  const onSubmit = async (data)=>{
+   try {
+    await signup(data)
+    console.log("signup data" , data)
+   } catch (error) {
+     console.error("SignUp failed:", error);
+   }
+  }
+
   return (
     <div className='h-screen grid lg:grid-cols-2'>
         <div className="flex flex-col justify-center items-center p-6 sm:p-12">
