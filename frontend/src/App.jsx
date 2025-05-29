@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './store/useAuthStore';
 import { useEffect } from 'react';
 import { Loader } from 'lucide-react';
+import Layout from './layout/Layout';
 
 const App = () => {
 
@@ -27,9 +28,19 @@ const App = () => {
     <div className='flex flex-col items-center justify-start'>
       <Toaster/>
       <Routes>
-        <Route path='/' element={authUser ? <HomePage /> : <Navigate to='/login' />} />
-        <Route path='/login' element={!authUser ? <LoginPage /> : <Navigate to='/' />} />
-        <Route path='/signup' element={!authUser ? <SignUpPage /> : <Navigate to='/' />} />
+        <Route path='/' element={<Layout/>}  >
+
+        <Route 
+        index
+        element={authUser ? <HomePage /> : <Navigate to='/login' />} />
+        </Route>
+        <Route 
+        path='/login' 
+        element={!authUser ? <LoginPage /> : <Navigate to='/' />} />
+        
+        <Route 
+        path='/signup' 
+        element={!authUser ? <SignUpPage /> : <Navigate to='/' />} />
       </Routes>
     </div>
   );
