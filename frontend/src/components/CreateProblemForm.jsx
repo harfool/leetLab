@@ -20,7 +20,6 @@ import problemSchema from '../schema/problemSchema';
 
 
 
-
 const sampledpData = {
   title: "Climbing Stairs",
   category: "dp", // Dynamic Programming
@@ -267,190 +266,167 @@ class Main {
   },
 };
 
-// Sample problem data for another type of question
 const sampleStringProblem = {
-  title: "Valid Palindrome",
+  title: "Palindrome Anagram",
   description:
-    "A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers. Given a string s, return true if it is a palindrome, or false otherwise.",
+    "Given a string s, return true if the characters of s can be rearranged to form a palindrome, and false otherwise. Ignore spaces and character casing. Alphanumeric characters only. A string can be rearranged to form a palindrome if at most one character has an odd frequency.",
   difficulty: "EASY",
-  tags: ["String", "Two Pointers"],
+  tags: ["String", "Hash Table"],
   constraints:
-    "1 <= s.length <= 2 * 10^5\ns consists only of printable ASCII characters.",
+    "1 <= s.length <= 10^5\ns consists only of printable ASCII characters.",
   hints:
-    "Consider using two pointers, one from the start and one from the end, moving towards the center.",
+    "Use a hash map to count character frequencies. At most one character can have an odd count for the string to be a palindrome anagram.",
   editorial:
-    "We can use two pointers approach to check if the string is a palindrome. One pointer starts from the beginning and the other from the end, moving towards each other.",
+    "To determine if a string can be rearranged into a palindrome, count the frequency of each alphanumeric character. A palindrome can have at most one character with an odd frequency count. Convert the string to lowercase and ignore non-alphanumeric characters.",
   testcases: [
     {
-      input: "A man, a plan, a canal: Panama",
+      input: "civic",
       output: "true",
     },
     {
-      input: "race a car",
+      input: "ivicc",
+      output: "true",
+    },
+    {
+      input: "hello",
       output: "false",
     },
     {
-      input: " ",
+      input: "A man a plan a canal Panama",
       output: "true",
     },
   ],
   examples: {
     JAVASCRIPT: {
-      input: 's = "A man, a plan, a canal: Panama"',
+      input: 's = "ivicc"',
       output: "true",
-      explanation: '"amanaplanacanalpanama" is a palindrome.',
+      explanation: '"ivicc" can be rearranged as "civic", which is a palindrome.',
     },
     PYTHON: {
-      input: 's = "A man, a plan, a canal: Panama"',
+      input: 's = "A man a plan a canal Panama"',
       output: "true",
-      explanation: '"amanaplanacanalpanama" is a palindrome.',
+      explanation: '"amanaplanacanalpanama" can form a palindrome.',
     },
     JAVA: {
-      input: 's = "A man, a plan, a canal: Panama"',
-      output: "true",
-      explanation: '"amanaplanacanalpanama" is a palindrome.',
+      input: 's = "hello"',
+      output: "false",
+      explanation: '"hello" cannot be rearranged into a palindrome.',
     },
   },
   codeSnippets: {
     JAVASCRIPT: `/**
-   * @param {string} s
-   * @return {boolean}
-   */
-  function isPalindrome(s) {
-    // Write your code here
-  }
-  
-  // Add readline for dynamic input handling
-  const readline = require('readline');
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
-  });
-  
-  // Process input line
-  rl.on('line', (line) => {
-    // Call solution with the input string
-    const result = isPalindrome(line);
-    
-    // Output the result
-    console.log(result ? "true" : "false");
-    rl.close();
-  });`,
+ * @param {string} s
+ * @return {boolean}
+ */
+function canFormPalindrome(s) {
+  // Write your code here
+}
+
+// Input handling
+const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+});
+
+rl.on('line', (line) => {
+  const result = canFormPalindrome(line);
+  console.log(result ? "true" : "false");
+  rl.close();
+});`,
     PYTHON: `class Solution:
-      def isPalindrome(self, s: str) -> bool:
-          # Write your code here
-          pass
-  
-  # Input parsing
-  if __name__ == "__main__":
-      import sys
-      # Read the input string
-      s = sys.stdin.readline().strip()
-      
-      # Call solution
-      sol = Solution()
-      result = sol.isPalindrome(s)
-      
-      # Output result
-      print(str(result).lower())  # Convert True/False to lowercase true/false`,
-    JAVA: `import java.util.Scanner;
+  def canFormPalindrome(self, s: str) -> bool:
+      # Write your code here
+      pass
+
+if __name__ == "__main__":
+    import sys
+    s = sys.stdin.readline().strip()
+    sol = Solution()
+    result = sol.canFormPalindrome(s)
+    print("true" if result else "false")`,
+    JAVA: `import java.util.*;
 
 public class Main {
-    public static String preprocess(String s) {
-        return s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-    }
-
-    public static boolean isPalindrome(String s) {
-       
+    public static boolean canFormPalindrome(String s) {
+        // Write your code here
+        return false;
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
-
-        boolean result = isPalindrome(input);
+        boolean result = canFormPalindrome(input);
         System.out.println(result ? "true" : "false");
     }
-}
-`,
+}`
   },
   referenceSolutions: {
     JAVASCRIPT: `/**
-   * @param {string} s
-   * @return {boolean}
-   */
-  function isPalindrome(s) {
-    // Convert to lowercase and remove non-alphanumeric characters
-    s = s.toLowerCase().replace(/[^a-z0-9]/g, '');
-    
-    // Check if it's a palindrome
-    let left = 0;
-    let right = s.length - 1;
-    
-    while (left < right) {
-      if (s[left] !== s[right]) {
-        return false;
-      }
-      left++;
-      right--;
-    }
-    
-    return true;
+ * @param {string} s
+ * @return {boolean}
+ */
+function canFormPalindrome(s) {
+  s = s.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const freq = new Map();
+
+  for (const char of s) {
+    freq.set(char, (freq.get(char) || 0) + 1);
   }
-  
-  // Add readline for dynamic input handling
-  const readline = require('readline');
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
-  });
-  
-  // Process input line
-  rl.on('line', (line) => {
-    // Call solution with the input string
-    const result = isPalindrome(line);
-    
-    // Output the result
-    console.log(result ? "true" : "false");
-    rl.close();
-  });`,
+
+  let oddCount = 0;
+  for (const count of freq.values()) {
+    if (count % 2 !== 0) oddCount++;
+    if (oddCount > 1) return false;
+  }
+
+  return true;
+}
+
+const readline = require('readline');
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+});
+
+rl.on('line', (line) => {
+  const result = canFormPalindrome(line);
+  console.log(result ? "true" : "false");
+  rl.close();
+});`,
     PYTHON: `class Solution:
-      def isPalindrome(self, s: str) -> bool:
-          # Convert to lowercase and keep only alphanumeric characters
-          filtered_chars = [c.lower() for c in s if c.isalnum()]
-          
-          # Check if it's a palindrome
-          return filtered_chars == filtered_chars[::-1]
-  
-  # Input parsing
-  if __name__ == "__main__":
-      import sys
-      # Read the input string
-      s = sys.stdin.readline().strip()
-      
-      # Call solution
-      sol = Solution()
-      result = sol.isPalindrome(s)
-      
-      # Output result
-      print(str(result).lower())  # Convert True/False to lowercase true/false`,
-    JAVA: `import java.util.Scanner;
+  def canFormPalindrome(self, s: str) -> bool:
+      from collections import Counter
+      s = ''.join(c.lower() for c in s if c.isalnum())
+      freq = Counter(s)
+      odd_count = sum(1 for count in freq.values() if count % 2 != 0)
+      return odd_count <= 1
+
+if __name__ == "__main__":
+    import sys
+    s = sys.stdin.readline().strip()
+    sol = Solution()
+    result = sol.canFormPalindrome(s)
+    print("true" if result else "false")`,
+    JAVA: `import java.util.*;
 
 public class Main {
-    public static String preprocess(String s) {
-        return s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-    }
+    public static boolean canFormPalindrome(String s) {
+        s = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        Map<Character, Integer> freq = new HashMap<>();
 
-    public static boolean isPalindrome(String s) {
-        s = preprocess(s);
-        int left = 0, right = s.length() - 1;
+        for (char c : s.toCharArray()) {
+            freq.put(c, freq.getOrDefault(c, 0) + 1);
+        }
 
-        while (left < right) {
-            if (s.charAt(left) != s.charAt(right)) return false;
-            left++;
-            right--;
+        int oddCount = 0;
+        for (int count : freq.values()) {
+            if (count % 2 != 0) {
+                oddCount++;
+                if (oddCount > 1) return false;
+            }
         }
 
         return true;
@@ -459,13 +435,11 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
-
-        boolean result = isPalindrome(input);
+        boolean result = canFormPalindrome(input);
         System.out.println(result ? "true" : "false");
     }
-}
-`,
-  },
+}`
+  }
 };
 
 const CreateProblemForm = () => {
@@ -546,7 +520,7 @@ const CreateProblemForm = () => {
 }
 
   return (
-<div className='container mx-auto py-8 px-4 max-w-7xl'>
+    <div className='container mx-auto py-8 px-4 max-w-7xl'>
   <div className="card bg-base-100 shadow-xl">
         <div className="card-body p-6 md:p-8">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 pb-4 border-b">

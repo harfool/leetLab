@@ -80,7 +80,7 @@ export const createProblem = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: "Message Created Successfully",
+      message: "Problem Created Successfully",
       problem: newProblem,
     });
   } catch (error) {
